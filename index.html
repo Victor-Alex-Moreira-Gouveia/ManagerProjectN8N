@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio de Projetos | Estilo Minimalista</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --card-bg: #161616;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --accent-color: #0070f3; /* Azul estilo Next.js/Vercel */
+            --border-color: #262626;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: -1px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Grid de Cards */
+        #projetos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        /* Estilo do Card */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 20px;
+            background: rgba(0, 112, 243, 0.1);
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .card-link {
+            text-decoration: none;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .card-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            color: var(--text-secondary);
+            grid-column: 1 / -1;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Gerenciador de Projetos N8N</h1>
+            <p>Projetos que produzimos</p>
+        </header>
+
+        <div id="projetos-grid">
+            <div class="loading">Carregando projetos incríveis...</div>
+        </div>
+    </div>
+
+    <script>
+        // SUBSTITUA PELA URL DO SEU WEBHOOK DO N8N
+        const N8N_WEBHOOK_URL = 'https://agentes-n8n.cb16s5.easypanel.host/webhook/ManagerProjectN8N';
+
+        async function fetchProjetos() {
+            const grid = document.getElementById('projetos-grid');
+
+            try {
+                const response = await fetch(N8N_WEBHOOK_URL);
+                const projetos = await response.json();
+
+                // Limpa o loading
+                grid.innerHTML = '';
+
+                // Renderiza os cards
+                projetos.forEach(projeto => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+
+                    card.innerHTML = `
+                        <div class="card-header">
+                            <span class="status-badge">${projeto.Status}</span>
+                        </div>
+                        <h3>${projeto.Titulo}</h3>
+                        <p>${projeto.Descrição || projeto.Descrução}</p>
+                        <a href="${projeto.URL}" target="_blank" class="card-link">
+                            Acessar projeto &nbsp; →
+                        </a>
+                    `;
+                    grid.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
+                grid.innerHTML = '<p style="color: red; grid-column: 1/-1; text-align: center;">Erro ao carregar dados do n8n. Verifique o CORS ou a URL.</p>';
+            }
+        }
+
+        // Inicia a busca ao carregar a página
+        fetchProjetos();
+    </script>
+</body>
+</html>

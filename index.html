@@ -3,170 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio de Projetos | Estilo Minimalista</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Projetos N8N | Dashboard Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0a0a0a;
-            --card-bg: #161616;
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-            --accent-color: #0070f3; /* Azul estilo Next.js/Vercel */
-            --border-color: #262626;
+            --bg-color: #050505;
+            --surface-color: rgba(20, 20, 22, 0.6);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1aa;
+            --accent-primary: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --glass-blur: blur(12px);
+            --status-online: #10b981;
+            --status-building: #f59e0b;
+            --status-maintenance: #ef4444;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            padding: 40px 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
+        /* Ambient animated glow */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            box-shadow: 0 0 20px 2px var(--accent-glow);
+            animation: pulse-light 4s ease-in-out infinite;
+            z-index: 100;
+        }
+
+        @keyframes pulse-light {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         header {
+            width: 100%;
+            max-width: 1200px;
+            padding: 80px 24px 40px;
             text-align: center;
-            margin-bottom: 60px;
+            position: relative;
         }
 
         header h1 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            letter-spacing: -1px;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+            animation: fade-in-up 0.8s ease-out forwards;
         }
 
         header p {
+            font-size: 1.25rem;
             color: var(--text-secondary);
-            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fade-in-up 1s ease-out forwards;
         }
 
-        /* Grid de Cards */
-        #projetos-grid {
+        main {
+            width: 100%;
+            max-width: 1200px;
+            padding: 0 24px 80px;
+            flex: 1;
+        }
+
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 32px;
+            perspective: 1000px;
         }
 
-        /* Estilo do Card */
+        /* Glassmorphic Card */
         .card {
-            background: var(--card-bg);
+            background: var(--surface-color);
             border: 1px solid var(--border-color);
-            border-radius: 12px;
-            padding: 24px;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            animation: fade-in-up 0.6s ease-out forwards;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+            pointer-events: none;
         }
 
         .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5), 
+                        0 0 20px -5px var(--accent-glow);
         }
 
+        /* Card Header & Badge */
         .card-header {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
+            justify-content: flex-start;
+            margin-bottom: 20px;
         }
 
         .status-badge {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            padding: 4px 8px;
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
             border-radius: 20px;
-            background: rgba(0, 112, 243, 0.1);
-            color: var(--accent-color);
+            font-size: 0.75rem;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
         }
 
+        .status-badge::before {
+            content: '';
+            display: block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+            box-shadow: 0 0 8px currentColor;
+        }
+
+        /* Dynamic Status Colors via JS, Defaulting to Blue */
+        .status-badge[data-status="Online"] { color: var(--status-online); border-color: rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.1); }
+        .status-badge[data-status="Construção"] { color: var(--status-building); border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.1); }
+        .status-badge[data-status="Manutenção"] { color: var(--status-maintenance); border-color: rgba(239, 68, 68, 0.3); background: rgba(239, 68, 68, 0.1); }
+
         .card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
             font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
         }
 
         .card p {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 32px;
             flex-grow: 1;
         }
 
         .card-link {
-            text-decoration: none;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-            font-weight: 600;
             display: inline-flex;
             align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            margin-top: auto;
+        }
+
+        .card-link svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s ease;
         }
 
         .card-link:hover {
-            text-decoration: underline;
+            background: var(--text-primary);
+            color: var(--bg-color);
         }
 
-        /* Loading state */
-        .loading {
-            text-align: center;
-            color: var(--text-secondary);
+        .card-link:hover svg {
+            transform: translateX(4px) rotate(-45deg);
+        }
+
+        /* Loading / Error States */
+        .message-container {
             grid-column: 1 / -1;
-            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .loader {
+            width: 48px;
+            height: 48px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent-primary);
+            animation: spin 1s ease-in-out infinite;
+            margin-bottom: 24px;
+        }
+
+        .error-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes fade-in-up {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-8px); }
+            75% { transform: translateX(8px); }
+        }
+
+        /* Delays for grid items */
+        .delay-0 { animation-delay: 0.1s; }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.3s; }
+        .delay-3 { animation-delay: 0.4s; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .grid { gap: 20px; }
+            .card { padding: 24px; }
         }
     </style>
 </head>
 <body>
+    <div class="ambient-light"></div>
+    
+    <header>
+        <h1>Manager N8N</h1>
+        <p>Acompanhe o status e a evolução de todos os nossos projetos em tempo real com nossa infraestrutura N8N.</p>
+    </header>
 
-    <div class="container">
-        <header>
-            <h1>Gerenciador de Projetos N8N</h1>
-            <p>Projetos que produzimos</p>
-        </header>
-
-        <div id="projetos-grid">
-            <div class="loading">Carregando projetos incríveis...</div>
+    <main>
+        <div id="projetos-grid" class="grid">
+            <div class="message-container">
+                <div class="loader"></div>
+                <h2>Sincronizando projetos...</h2>
+            </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        // SUBSTITUA PELA URL DO SEU WEBHOOK DO N8N
-        const N8N_WEBHOOK_URL = 'https://agentes-n8n.cb16s5.easypanel.host/webhook/ManagerProjectN8N';
+        const N8N_WEBHOOK_URL = 'https://agentes-n8n.cb16s5.easypanel.host/webhook/prod-api-manager-project';
 
         async function fetchProjetos() {
             const grid = document.getElementById('projetos-grid');
 
             try {
-                const response = await fetch(N8N_WEBHOOK_URL);
-                const projetos = await response.json();
+                const response = await fetch(N8N_WEBHOOK_URL, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
+                
+                if (!response.ok) throw new Error('Falha na requisição');
+                
+                let projetos = await response.json();
+                
+                // Tratar se return for { data: [...] } ou [...] 
+                if (projetos.data && Array.isArray(projetos.data)) {
+                    projetos = projetos.data;
+                } else if (!Array.isArray(projetos)) {
+                    projetos = [projetos];
+                }
 
-                // Limpa o loading
                 grid.innerHTML = '';
 
-                // Renderiza os cards
-                projetos.forEach(projeto => {
-                    const card = document.createElement('div');
-                    card.className = 'card';
+                if (projetos.length === 0) {
+                    grid.innerHTML = `
+                        <div class="message-container">
+                            <p style="color: var(--text-secondary); font-size: 1.2rem;">Nenhum projeto encontrado.</p>
+                        </div>
+                    `;
+                    return;
+                }
 
+                projetos.forEach((projeto, index) => {
+                    const status = projeto.Status || projeto['Status atual do projeto'] || 'Desconhecido';
+                    const titulo = projeto.Titulo || 'Projeto sem Título';
+                    const desc = projeto.Descrição || projeto.Descrução || 'Nenhuma descrição fornecida.';
+                    const url = projeto.URL || '#';
+                    const delayClass = `delay-${index % 4}`;
+
+                    const card = document.createElement('div');
+                    card.className = `card ${delayClass}`;
                     card.innerHTML = `
                         <div class="card-header">
-                            <span class="status-badge">${projeto.Status}</span>
+                            <span class="status-badge" data-status="${status}">${status}</span>
                         </div>
-                        <h3>${projeto.Titulo}</h3>
-                        <p>${projeto.Descrição || projeto.Descrução}</p>
-                        <a href="${projeto.URL}" target="_blank" class="card-link">
-                            Acessar projeto &nbsp; →
+                        <h3>${titulo}</h3>
+                        <p>${desc}</p>
+                        <a href="${url}" target="_blank" rel="noopener noreferrer" class="card-link">
+                            <span>Acessar Projeto</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
                         </a>
                     `;
                     grid.appendChild(card);
@@ -174,12 +343,18 @@
 
             } catch (error) {
                 console.error('Erro ao buscar dados:', error);
-                grid.innerHTML = '<p style="color: red; grid-column: 1/-1; text-align: center;">Erro ao carregar dados do n8n. Verifique o CORS ou a URL.</p>';
+                grid.innerHTML = `
+                    <div class="message-container">
+                        <div class="error-icon">⚠️</div>
+                        <h3 style="color: #ef4444; margin-bottom: 8px;">Conexão Falhou</h3>
+                        <p style="color: var(--text-secondary);">Não foi possível carregar os projetos. Verifique a API do N8N e se há CORS ativado.</p>
+                    </div>
+                `;
             }
         }
 
-        // Inicia a busca ao carregar a página
-        fetchProjetos();
+        // Init
+        document.addEventListener('DOMContentLoaded', fetchProjetos);
     </script>
 </body>
 </html>

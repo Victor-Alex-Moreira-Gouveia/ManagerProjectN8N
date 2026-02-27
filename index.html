@@ -319,24 +319,32 @@
                     const status = projeto.Status || projeto['Status atual do projeto'] || 'Desconhecido';
                     const titulo = projeto.Titulo || 'Projeto sem Título';
                     const desc = projeto.Descrição || projeto.Descrução || 'Nenhuma descrição fornecida.';
-                    const url = projeto.URL || '#';
+                    const url = projeto.URL || '';
                     const delayClass = `delay-${index % 4}`;
 
                     const card = document.createElement('div');
                     card.className = `card ${delayClass}`;
+                    
+                    let buttonHtml = '';
+                    if (url && url !== '#' && url.trim() !== '') {
+                        buttonHtml = `
+                            <a href="${url}" target="_blank" rel="noopener noreferrer" class="card-link">
+                                <span>Acessar Projeto</span>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </a>
+                        `;
+                    }
+
                     card.innerHTML = `
                         <div class="card-header">
                             <span class="status-badge" data-status="${status}">${status}</span>
                         </div>
                         <h3>${titulo}</h3>
                         <p>${desc}</p>
-                        <a href="${url}" target="_blank" rel="noopener noreferrer" class="card-link">
-                            <span>Acessar Projeto</span>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                <polyline points="12 5 19 12 12 19"></polyline>
-                            </svg>
-                        </a>
+                        ${buttonHtml}
                     `;
                     grid.appendChild(card);
                 });

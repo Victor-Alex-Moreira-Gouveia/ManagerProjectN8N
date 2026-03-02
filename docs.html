@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação | AI Automation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121212;
+            --surface-color: #1a1a1a;
+            --accent-primary: #FE7043;
+            --accent-secondary: #DB3B3B;
+            --text-primary: #ffffff;
+            --text-secondary: #a3a3a3;
+            --card-radius: 16px;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glow-color: rgba(254, 112, 67, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Ambient animated glow */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            box-shadow: 0 0 20px 2px rgba(254, 112, 67, 0.25);
+            animation: pulse-light 4s ease-in-out infinite;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        @keyframes pulse-light {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        nav {
+            padding: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .back-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .back-link:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            background: rgba(254, 112, 67, 0.05);
+            transform: translateY(-2px);
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 24px 100px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-primary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--card-radius);
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-top: 30px;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.02);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .info-card h4 {
+            color: #fff;
+            margin-bottom: 12px;
+        }
+
+        code {
+            background: rgba(0,0,0,0.3);
+            padding: 12px;
+            border-radius: 8px;
+            display: block;
+            font-family: monospace;
+            color: #e0e0e0;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            border: 1px solid var(--glass-border);
+            overflow-x: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(254, 112, 67, 0.1);
+            color: var(--accent-primary);
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            section { padding: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-light"></div>
+    
+    <nav>
+        <a href="index.html" class="logo">AI Automation</a>
+        <a href="index.html" class="back-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Voltar ao Dashboard
+        </a>
+    </nav>
+
+    <main>
+        <h1>Documentação do Sistema</h1>
+
+        <section id="objetivo">
+            <div class="badge">Propósito</div>
+            <h2>🎯 Objetivo do Projeto</h2>
+            <p>O <strong>Manager Project N8N</strong> foi criado para centralizar a gestão de infraestrutura de automação. Ele permite que a equipe visualize em tempo real o estado de saúde, stack tecnológica e acessos de todos os nossos projetos ativos.</p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Monitoramento</h4>
+                    <p>Estados Online, Construção ou Manutenção atualizados via webhook.</p>
+                </div>
+                <div class="info-card">
+                    <h4>Transparência</h4>
+                    <p>Descrições técnicas e links diretos para ambientes de produção e staging.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="arquitetura">
+            <div class="badge">Infraestrutura</div>
+            <h2>🏗️ Arquitetura Técnica</h2>
+            <p>Nossa solução utiliza um stack moderno, sem cabeçalhos pesados, focada em estabilidade e agilidade.</p>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Motor n8n</h4>
+                    <p>Processa lógica de negócio (`prod-api-manager-project`), valida dados e expõe os endpoints REST.</p>
+                </div>
+                <div class="info-card">
+                    <h4>Banco Supabase</h4>
+                    <p>Armazenamento resiliente utilizando PostgreSQL para persistência dos metadados dos projetos.</p>
+                </div>
+                <div class="info-card">
+                    <h4>Frontend Glass</h4>
+                    <p>Interface SPA (Single Page Application) em JS puro, consumindo Webhooks em tempo real.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="apis">
+            <div class="badge">Desenvolvimento</div>
+            <h2>🚀 APIs e Integrações</h2>
+            <p>Utilize os endpoints abaixo para gerenciar os dados do portfólio.</p>
+            
+            <div class="info-card" style="width: 100%; margin-bottom: 20px;">
+                <h4>Consulta de Projetos (GET)</h4>
+                <p>Retorna a lista completa de projetos em formato JSON.</p>
+                <code>GET https://agentes-n8n.cb16s5.easypanel.host/webhook/prod-api-manager-project</code>
+            </div>
+
+            <div class="info-card" style="width: 100%;">
+                <h4>Cadastro de Novo Projeto (POST/Form)</h4>
+                <p>Envie dados via formulário estruturado do n8n (Título, Status, URL, Descrição, Tags, **Registrar API**, **Descrição da API**).</p>
+                <code>POST https://agentes-n8n.cb16s5.easypanel.host/form/ce79d13d-120a-4ac5-bf96-ae94401c6119</code>
+            </div>
+        </section>
+
+        <section id="manutencao">
+            <div class="badge">Operação</div>
+            <h2>🛠️ Manutenção</h2>
+            <p>Para adicionar novos projetos, acesse o formulário de gestão interno. Todas as alterações refletem instantaneamente no dashboard principal através do sistema de cache resiliente da Easypanel.</p>
+        </section>
+    </main>
+</body>
+</html>

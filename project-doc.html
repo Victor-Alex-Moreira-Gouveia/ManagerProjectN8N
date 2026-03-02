@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação do Projeto | AI Automation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --accent-primary: #fe7043;
+            --bg-dark: #121212;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #b0b0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        header {
+            margin-bottom: 60px;
+            text-align: left;
+            position: relative;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-bottom: 24px;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .btn-back:hover {
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+            background: rgba(254, 112, 67, 0.05);
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-primary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .status-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            border: 1px solid var(--accent-primary);
+            color: var(--accent-primary);
+            margin-bottom: 20px;
+        }
+
+        .section {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            color: var(--accent-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Markdown Styles */
+        .markdown-content h3 { margin: 24px 0 12px; color: #fff; }
+        .markdown-content p { margin-bottom: 16px; color: var(--text-secondary); }
+        .markdown-content ul, .markdown-content ol { margin-bottom: 16px; padding-left: 20px; }
+        .markdown-content li { margin-bottom: 8px; color: var(--text-secondary); }
+        .markdown-content code { background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 0.9em; }
+        .markdown-content pre { 
+            background: rgba(0,0,0,0.4); 
+            padding: 20px; 
+            border-radius: 12px; 
+            overflow-x: auto; 
+            margin-bottom: 20px; 
+            border: 1px solid var(--glass-border);
+            width: 100%;
+        }
+        .markdown-content pre code { background: none; padding: 0; white-space: pre; }
+        .markdown-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            display: block;
+            overflow-x: auto;
+        }
+        .markdown-content th, .markdown-content td {
+            border: 1px solid var(--glass-border);
+            padding: 12px;
+            text-align: left;
+        }
+        .markdown-content th { background: rgba(255,255,255,0.05); }
+
+        /* API Table Styles */
+        .api-card {
+            background: rgba(0,0,0,0.2);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 20px;
+        }
+
+        .api-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .api-value-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
+
+        .api-value {
+            font-family: monospace;
+            background: #000;
+            padding: 8px 12px;
+            border-radius: 6px;
+            flex: 1;
+            font-size: 0.9rem;
+            border: 1px solid #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .btn-copy {
+            background: var(--accent-primary);
+            border: none;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        .btn-copy:hover {
+            opacity: 0.8;
+        }
+
+        #loading {
+            text-align: center;
+            padding: 100px 0;
+            color: var(--text-secondary);
+        }
+
+        .hidden { display: none; }
+
+        @media (max-width: 768px) {
+            .section { padding: 24px; }
+        }
+
+        /* Ambient animated glow */
+        .ambient-light {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+            box-shadow: 0 0 20px 2px rgba(254, 112, 67, 0.25);
+            animation: pulse-light 4s ease-in-out infinite;
+            z-index: 100;
+        }
+
+        @keyframes pulse-light {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .api-value {
+            overflow-wrap: break-word;
+            word-break: break-all;
+            white-space: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-light"></div>
+    <div class="container">
+        <a href="index.html" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Voltar ao Dashboard
+        </a>
+
+        <div id="loading">Carregando documentação...</div>
+
+        <div id="doc-content" class="hidden">
+            <header>
+                <div id="project-status" class="status-tag"></div>
+                <h1 id="project-title"></h1>
+                <p id="project-desc" style="color: var(--text-secondary); font-size: 1.1rem;"></p>
+            </header>
+
+            <section class="section">
+                <h2>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    Descrição Detalhada
+                </h2>
+                <div id="project-docs" class="markdown-content"></div>
+            </section>
+
+            <section id="api-section" class="section hidden">
+                <h2>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                    Autenticação & API
+                </h2>
+                
+                <div class="api-card">
+                    <span class="api-label">Key Name</span>
+                    <div id="api-name" class="api-value" style="margin-bottom: 20px;"></div>
+                    
+                    <span class="api-label">API Key</span>
+                    <div class="api-value-container">
+                        <div id="api-key" class="api-value"></div>
+                        <button class="btn-copy" onclick="copyValue('api-key')">Copiar</button>
+                    </div>
+
+                    <p id="api-desc" style="margin-top: 15px; font-size: 0.85rem; color: var(--text-secondary);"></p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://agentes-n8n.cb16s5.easypanel.host/webhook/prod-api-manager-project';
+
+        async function fetchDoc() {
+            const params = new URLSearchParams(window.location.search);
+            const projectId = params.get('id');
+
+            if (!projectId) {
+                document.getElementById('loading').innerHTML = 'ID do projeto não fornecido.';
+                return;
+            }
+
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                // Procurar projeto pelo ID (usando id numérico do Supabase)
+                const projeto = data.find(p => String(p.id) === projectId);
+
+                if (!projeto) {
+                    document.getElementById('loading').innerHTML = 'Projeto não encontrado.';
+                    return;
+                }
+
+                renderProject(projeto);
+            } catch (error) {
+                console.error('Erro:', error);
+                document.getElementById('loading').innerHTML = 'Erro ao carregar os dados.';
+            }
+        }
+
+        function renderProject(projeto) {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('doc-content').classList.remove('hidden');
+
+            document.getElementById('project-title').innerText = projeto.Titulo;
+            document.getElementById('project-desc').innerText = projeto.Descrição;
+            document.getElementById('project-status').innerText = projeto.Status;
+
+            // Render Markdown se existir
+            if (projeto.Documentation) {
+                // Tratar quebras de linha que podem vir escapadas do JSON
+                const cleanMarkdown = projeto.Documentation.replace(/\\n/g, '\n');
+                document.getElementById('project-docs').innerHTML = marked.parse(cleanMarkdown);
+            } else {
+                document.getElementById('project-docs').innerText = 'Nenhuma documentação detalhada disponível para este projeto.';
+            }
+
+            // API Section
+            if (projeto.api_key) {
+                document.getElementById('api-section').classList.remove('hidden');
+                document.getElementById('api-key').innerText = projeto.api_key;
+                document.getElementById('api-name').innerText = projeto.api_key_name || 'Project API';
+                document.getElementById('api-desc').innerText = projeto.api_key_description || '';
+            }
+        }
+
+        function copyValue(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = event.target;
+                const originalText = btn.innerText;
+                btn.innerText = 'Copiado!';
+                setTimeout(() => btn.innerText = originalText, 2000);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchDoc);
+    </script>
+</body>
+</html>
